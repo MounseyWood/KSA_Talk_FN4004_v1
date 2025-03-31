@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FN4004 Design Process 1 - Learning Outcomes Assessment Tool</title>
+    
+    <style>
+        /* Base styles */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f8f8f8;
+            padding: 0;
+            margin: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #aaaaaa;
+            padding-bottom: 20px;
+        }
+        
+        .logo {
+            max-height: 50px;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+        
+        h2 {
+            font-size: 20px;
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+        
+        h3 {
+            font-size: 16px;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+        
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 4px;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-grade {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        
+        .btn-grade.active {
+            outline: 2px solid #666;
+            outline-offset: 2px;
+        }
+        
+        .btn-outcome {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        
+        .btn-outcome.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        .ku-button {
+            display: inline-block;
+            background-color: #FFF200;
+            color: #000;
+            font-weight: bold;
+            font-size: 1rem;
+            padding: 12px 15px;
+            height: 45px;
+            box-sizing: border-box;
+            border-radius: 0;
+            text-decoration: none;
+            margin: 10px 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            line-height: 1.4;
+        }
+        
+        .ku-button:hover {
+            background-color: #E6D900;
+        }
+        
+        /* Content sections */
+        .grade-section {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            color: black;
+        }
+        
+        .outcome-content {
+            background-color: #f9fafb;
+            padding: 24px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 24px;
+        }
+        
+        .feedback-card {
+            background-color: white;
+            padding: 16px;
+            border-radius: 4px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 16px;
+        }
+        
+        .advice-section {
+            background-color: #f9fafb;
+            padding: 24px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 24px;
+        }
+        
+        .note {
+            font-size: 14px;
+            color: #666;
+            padding: 12px;
+            background-color: #f1f1f1;
+            border-left: 4px solid #FFF200;
+            margin-top: 24px;
+        }
+        
+        /* Updated Grade colors */
+        .first-plus {
+            background-color: #80FF80;
+        }
+        
+        .first {
+            background-color: #BFFF80;
+        }
+        
+        .upper-second {
+            background-color: #FFFF80;
+        }
+        
+        .lower-second {
+            background-color: #FFE880;
+        }
+        
+        .third {
+            background-color: #FFCC80;
+        }
+        
+        .marginal-fail {
+            background-color: #FF9980;
+        }
+        
+        .fail {
+            background-color: #FF8080;
+        }
+        
+        .section-title {
+            font-weight: 700;
+            color: #000;
+        }
+        
+        .framework-field {
+            color: #3b82f6;
+            font-weight: 500;
+        }
+        
+        /* List styling */
+        ul.advice-list {
+            list-style-type: disc;
+            padding-left: 24px;
+        }
+        
+        ul.advice-list li {
+            margin-bottom: 8px;
+        }
+        
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        
+        .footer-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        /* Hide elements by default */
+        .outcome-content, .advice-content {
+            display: none;
+        }
+        
+        /* Show active elements */
+        .outcome-content.active, .advice-content.active {
+            display: block;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: black;
+        }
+        
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .matrix-table th, .matrix-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .matrix-table th:first-child {
+            background-color: #f1f1f1;
+            font-weight: bold;
+            width: 20%;
+        }
+        
+        .matrix-table tr:first-child th {
+            text-align: center;
+            padding: 8px;
+            color: black;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="header">
+                <img src="Talk_FN4004.png" alt="FN4004 Design Process 1 Assessment Tool" class="logo">
+                <p style="font-size: 14px; margin-top: 12px; background-color: #f1f1f1; padding: 12px; border-radius: 4px;">
+                    This interactive tool helps provide structured feedback aligned with FN4004 Learning Outcomes and Grade Descriptors. Select a Grade Band and a Learning Outcome to understand what tutors are looking for in your work, and how you may improve your grade. The tool maps each learning outcome to the School of Design Curriculum Framework.
+                </p>
+            </div>
+            
+            <div id="feedback-app">
+                <!-- Grade Selection Section -->
+                <div>
+                    <h2>Select Grade Band</h2>
+                    <div class="buttons-container" id="grade-buttons">
+                        <!-- Buttons will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Selected Grade Header -->
+                <div id="grade-header" class="grade-section first-plus">
+                    <h2 id="grade-title">First Class (A+) (85-100%)</h2>
+                    <p id="grade-quality" style="font-size: 18px;">Overall Quality: Outstanding</p>
+                </div>
+                
+                <!-- Learning Outcome Tabs -->
+                <div>
+                    <h2>Select Learning Outcome</h2>
+                    <div class="buttons-container" id="outcome-buttons">
+                        <!-- Buttons will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Learning Outcome Content -->
+                <div id="outcome-content-container">
+                    <!-- Content will be inserted here by JavaScript -->
+                </div>
+                
+                <!-- Overall Advice for Selected Grade -->
+                <div id="advice-section" class="advice-section">
+                    <h3>How to improve your overall grade:</h3>
+                    <ul class="advice-list" id="advice-list">
+                        <!-- Content will be inserted here by JavaScript -->
+                    </ul>
+                </div>
+                
+                <!-- Footer Buttons -->
+                <div class="footer-buttons">
+                    <button id="matrix-button" class="ku-button">Complete FN4004 Grade Descriptor Matrix</button>
+                    <a href="https://canvas.kingston.ac.uk/courses/8255/pages/7-fairness-in-assessment" class="ku-button" target="_blank">Fairness in Assessment</a>
+                    <a href="https://kingstonuniversity.sharepoint.com/sites/mykingston/mysupport/myskills/Pages/default.aspx" class="ku-button" target="_blank">Support for Building Academic Skills</a>
+                    <a href="https://canvas.kingston.ac.uk/courses/32501" class="ku-button" title="Back to Module Home Page">Back to Module Home Page</a>
+                </div>
+                
+                <!-- Footer Note -->
+                <div class="note">
+                    <p>Note: This is a visual interpretation of the Kingston School of Art BA (Hons) Fashion grade descriptors for FN4004. Always refer to the official grade descriptors in your course handbook for definitive guidance.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Grade Descriptor Matrix Modal -->
+        <div id="matrix-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="close-matrix">&times;</span>
+                <h2>Complete FN4004 Grade Descriptor Matrix</h2>
+                
+                <div style="margin: 20px 0;">
+                    <p>The following matrix maps the FN4004 Learning Outcomes against grade descriptors, showing what is expected at each level of achievement.</p>
+                </div>
+                
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Learning Outcomes</th>
+                            <th class="first-plus">First Class (A+)<br>85-100%</th>
+                            <th class="first">First Class (A)<br>70-84%</th>
+                            <th class="upper-second">Upper Second (B)<br>60-69%</th>
+                            <th class="lower-second">Lower Second (C)<br>50-59%</th>
+                            <th class="third">Third Class (D)<br>40-49%</th>
+                            <th class="marginal-fail">Marginal Fail (FM)<br>35-39%</th>
+                            <th class="fail">Fail (F)<br>0-34%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>LO1: Use research sources as a basis for creative design by exploring, evaluating and originating ideas into contemporary fashion concepts.</th>
+                            <td>Outstanding and exceptional use of research sources that go far beyond requirements; highly original thinking.</td>
+                            <td>Excellent use of research sources showing deep understanding and creative application to design development.</td>
+                            <td>Good ability to use research sources with solid evaluation and critical thinking skills.</td>
+                            <td>Satisfactory use of research sources with some evidence of evaluation.</td>
+                            <td>Basic understanding of research sources with limited application to design.</td>
+                            <td>Limited understanding of how to use research sources for design development.</td>
+                            <td>Very little evidence of research informing design work.</td>
+                        </tr>
+                        <tr>
+                            <th>LO2: Creatively generate, collate and record information appropriate to the design development process.</th>
+                            <td>Exceptional creativity and innovation in generating and documenting design development with expert organization.</td>
+                            <td>Excellent ability to confidently generate creative ideas and record them effectively through the design process.</td>
+                            <td>Good confidence in generating and recording design ideas with clear progression.</td>
+                            <td>Satisfactory ability to generate and record design information with some creative elements.</td>
+                            <td>Basic ability to generate and record design ideas with minimal organization.</td>
+                            <td>Limited ability to generate or record design information effectively.</td>
+                            <td>Insufficient evidence of generating or recording design information.</td>
+                        </tr>
+                        <tr>
+                            <th>LO3: Demonstrate an understanding of material qualities and evaluate their application and appropriateness to design outcomes.</th>
+                            <td>Outstanding understanding of materials with exceptional evaluation skills for innovative applications.</td>
+                            <td>Excellent understanding of material qualities with very good evaluation skills for design outcomes.</td>
+                            <td>Good understanding of material qualities with solid evaluation of their design applications.</td>
+                            <td>Satisfactory understanding of materials with some evaluation of their design applications.</td>
+                            <td>Basic understanding of materials with limited evaluation of their design applications.</td>
+                            <td>Limited understanding of materials with very little evaluation.</td>
+                            <td>Very little evidence of material understanding or evaluation.</td>
+                        </tr>
+                        <tr>
+                            <th>LO4: Advance research into creative concepts that recognise historical and/or ethical and social considerations.</th>
+                            <td>Exceptional ability to research creative concepts with outstanding recognition of complex historical, ethical, and social contexts.</td>
+                            <td>Excellent research into creative concepts with strong historical, ethical, and social awareness.</td>
+                            <td>Good research with clear recognition of historical and ethical considerations.</td>
+                            <td>Satisfactory research with some recognition of historical and ethical considerations.</td>
+                            <td>Basic research with limited recognition of historical or ethical considerations.</td>
+                            <td>Limited research with minimal recognition of historical or ethical considerations.</td>
+                            <td>Very little evidence of research into historical or ethical considerations.</td>
+                        </tr>
+                        <tr>
+                            <th>LO5: Communicate design outcomes using a variety of traditional and contemporary methods appropriate to professional contexts.</th>
+                            <td>Outstanding communication of design outcomes using exceptionally skilled and innovative methods suitable for professional contexts.</td>
+                            <td>Excellent communication of design outcomes using highly skilled traditional and contemporary methods.</td>
+                            <td>Good communication of design outcomes with skillful use of appropriate methods.</td>
+                            <td>Satisfactory communication of design outcomes using appropriate methods.</td>
+                            <td>Basic communication of design outcomes with limited method variety.</td>
+                            <td>Limited ability to communicate design outcomes effectively.</td>
+                            <td>Very little evidence of ability to communicate design outcomes.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button id="close-matrix-btn" class="ku-button">Close</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Kingston School of Art - BA (Hons) Fashion Program – Learning Outcomes, Feedback and Assessment Knowledge Base</p>
+            <p>© 2025 Kingston University</p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Grade data
+            const grades = [
+                {
+                    id: 'first-plus',
+                    title: 'First Class (A+)',
+                    range: '85-100%',
+                    quality: 'Outstanding'
+                },
+                {
+                    id: 'first',
+                    title: 'First Class (A)',
+                    range: '70-84%',
+                    quality: 'Very Good'
+                },
+                {
+                    id: 'upper-second',
+                    title: 'Upper Second (B)',
+                    range: '60-69%',
+                    quality: 'Good'
+                },
+                {
+                    id: 'lower-second',
+                    title: 'Lower Second (C)',
+                    range: '50-59%',
+                    quality: 'Satisfactory'
+                },
+                {
+                    id: 'third',
+                    title: 'Third Class (D)',
+                    range: '40-49%',
+                    quality: 'Adequate'
+                },
+                {
+                    id: 'marginal-fail',
+                    title: 'Marginal Fail (FM)',
+                    range: '35-39%',
+                    quality: 'Unsatisfactory'
+                },
+                {
+                    id: 'fail',
+                    title: 'Fail (F)',
+                    range: '0-34%',
+                    quality: 'Poor'
+                }
+            ];
+            
+            // Learning outcomes data mapped to curriculum framework
+            const learningOutcomes = [
+                {
+                    id: 'outcome1',
+                    title: 'LO1: Research for Creative Design',
+                    description: 'Use research sources as a basis for creative design by exploring, evaluating and originating ideas into contemporary fashion concepts.',
+                    framework: 'Research and Analysis',
+                    feedback: {
+                        'first-plus': {
+                            strength: 'Your work shows outstanding and exceptional use of research sources that go far beyond requirements, showcasing unique insights and original thinking.',
+                            evidence: 'You demonstrate comprehensive exploration of diverse and unexpected research sources, with sophisticated evaluation and critical analysis that informs your design development.',
+                            improvement: 'Continue developing your exceptional research approach by exploring even more specialized or interdisciplinary sources that could further push fashion boundaries.'
+                        },
+                        'first': {
+                            strength: 'Your work shows excellent use of research sources with deep understanding and creative application to design development.',
+                            evidence: 'You demonstrate strong critical analysis of research, with creative and thoughtful translation into contemporary fashion concepts.',
+                            improvement: 'To reach A+ level, push your research beyond the expected sources and demonstrate more innovative connections between research and design concepts.'
+                        },
+                        'upper-second': {
+                            strength: 'Your work shows good ability to use research sources as a foundation for creative design work with solid evaluation skills.',
+                            evidence: 'You provide clear evidence of research informing design decisions with thoughtful exploration of ideas and concepts.',
+                            improvement: 'Deepen your critical analysis of research sources and show more creative connections between research and design development to move toward a First.'
+                        },
+                        'lower-second': {
+                            strength: 'Your work shows satisfactory use of research sources with some evidence of evaluation and idea development.',
+                            evidence: 'You demonstrate a basic research foundation with some connection to design development, though analysis could be more thorough.',
+                            improvement: 'Focus on developing stronger analytical skills when evaluating research, and show clearer connections between research and design outcomes.'
+                        },
+                        'third': {
+                            strength: 'Your work shows adequate use of research sources with basic understanding of how to apply them to design.',
+                            evidence: 'You present some research but with limited depth and evaluation, mostly descriptive rather than analytical.',
+                            improvement: 'Expand your research beyond obvious sources and develop your analytical skills to evaluate research more critically.'
+                        },
+                        'marginal-fail': {
+                            strength: 'Your work shows limited understanding of how to use research sources for design development.',
+                            evidence: 'You present minimal research with little or no evaluation, and weak connections to design concepts.',
+                            improvement: 'Build a more structured approach to research, gathering more diverse sources and practice analyzing them in relation to your design ideas.'
+                        },
+                        'fail': {
+                            strength: 'Your work shows very little evidence of research informing design work.',
+                            evidence: 'There is insufficient research with no analysis or evaluation, disconnected from design development.',
+                            improvement: 'Develop a basic understanding of research methods and how to apply research to inform design decisions and concepts.'
+                        }
+                    }
+                },
+                {
+                    id: 'outcome2',
+                    title: 'LO2: Design Development Process',
+                    description: 'Creatively generate, collate and record information appropriate to the design development process.',
+                    framework: 'Experimentation and Practice',
+                    feedback: {
+                        'first-plus': {
+                            strength: 'Your work shows exceptional confidence and creativity in generating, organizing, and documenting design development.',
+                            evidence: 'You demonstrate outstanding progression of ideas with innovative approaches to recording design development and expert organization of information.',
+                            improvement: 'Continue your excellent practice, perhaps exploring even more innovative methods of recording and presenting your design process.'
+                        },
+                        'first': {
+                            strength: 'Your work shows excellent ability to confidently generate creative ideas and record them effectively throughout the design process.',
+                            evidence: 'You present a very well-organized portfolio with creative and thorough documentation of the design development journey.',
+                            improvement: 'To reach A+ level, experiment with more innovative or unexpected methods of recording your design process and organizing information.'
+                        },
+                        'upper-second': {
+                            strength: 'Your work shows good confidence in generating and recording design ideas with clear progression.',
+                            evidence: 'You provide well-documented design development with logical organization and progression of ideas.',
+                            improvement: 'Work on developing more creative approaches to recording your design process and show more confidence in pursuing original ideas.'
+                        },
+                        'lower-second': {
+                            strength: 'Your work shows satisfactory ability to generate and record design information with some creative elements.',
+                            evidence: 'You provide adequate documentation of design development but lacks some clarity or creativity in organization.',
+                            improvement: 'Improve the creativity and clarity in how you document your design process, showing more thoughtful organization and progression of ideas.'
+                        },
+                        'third': {
+                            strength: 'Your work shows basic ability to generate and record design ideas.',
+                            evidence: 'You present some documentation of design development but lacks organization and creative recording methods.',
+                            improvement: 'Develop a more structured approach to organizing your portfolio and experiment with more creative ways to record your design process.'
+                        },
+                        'marginal-fail': {
+                            strength: 'Your work shows limited ability to generate or record design information.',
+                            evidence: 'You provide poor documentation with little evidence of design development or organization.',
+                            improvement: 'Practice basic methods of recording design development and organizing information in a logical sequence.'
+                        },
+                        'fail': {
+                            strength: 'Your work shows insufficient evidence of generating or recording design information.',
+                            evidence: 'You present minimal or chaotic documentation with no clear design development process.',
+                            improvement: 'Learn and apply fundamental principles of documenting design development and organizing information appropriately.'
+                        }
+                    }
+                },
+                {
+                    id: 'outcome3',
+                    title: 'LO3: Material Understanding',
+                    description: 'Demonstrate an understanding of material qualities and evaluate their application and appropriateness to design outcomes.',
+                    framework: 'Experimentation and Practice',
+                    feedback: {
+                        'first-plus': {
+                            strength: 'Your work shows outstanding understanding of materials with exceptional ability to evaluate their qualities for innovative design applications.',
+                            evidence: 'You demonstrate sophisticated material exploration with expert evaluation of properties and highly creative applications.',
+                            improvement: 'Continue your exceptional material investigations, perhaps exploring even more sustainable or cutting-edge materials.'
+                        },
+                        'first': {
+                            strength: 'Your work shows excellent understanding of material qualities with very good evaluation skills for design outcomes.',
+                            evidence: 'You demonstrate strong material investigation with thoughtful analysis of properties and creative applications in design work.',
+                            improvement: 'To reach A+ level, deepen your exploration of material innovation and consider more experimental applications in your designs.'
+                        },
+                        'upper-second': {
+                            strength: 'Your work shows good understanding of material qualities with solid evaluation of their design applications.',
+                            evidence: 'You provide clear evidence of material investigation with appropriate evaluation of properties for design outcomes.',
+                            improvement: 'Develop a more sophisticated understanding of material properties and experiment with more creative or unexpected applications.'
+                        },
+                        'lower-second': {
+                            strength: 'Your work shows satisfactory understanding of materials with some evaluation of their design applications.',
+                            evidence: 'You present some material investigation but evaluation could be more thorough or creative.',
+                            improvement: 'Enhance your material investigation with more in-depth analysis of properties and more thoughtful consideration of design applications.'
+                        },
+                        'third': {
+                            strength: 'Your work shows basic understanding of materials with limited evaluation of their design applications.',
+                            evidence: 'You present minimal material investigation with superficial evaluation of properties.',
+                            improvement: 'Develop a more structured approach to investigating materials and practice evaluating their properties for specific design outcomes.'
+                        },
+                        'marginal-fail': {
+                            strength: 'Your work shows limited understanding of materials with very little evaluation.',
+                            evidence: 'You provide insufficient material investigation with poor consideration of properties or applications.',
+                            improvement: 'Build basic knowledge of material properties and practice simple evaluation techniques for design applications.'
+                        },
+                        'fail': {
+                            strength: 'Your work shows very little evidence of material understanding or evaluation.',
+                            evidence: 'You present almost no material investigation or consideration of properties in relation to design.',
+                            improvement: 'Learn fundamental principles of material properties and how they relate to design outcomes.'
+                        }
+                    }
+                },
+                {
+                    id: 'outcome4',
+                    title: 'LO4: Historical & Ethical Research',
+                    description: 'Advance research into creative concepts that recognise historical and/or ethical and social considerations.',
+                    framework: 'Research and Analysis',
+                    feedback: {
+                        'first-plus': {
+                            strength: 'Your work shows exceptional ability to research creative concepts with outstanding recognition of historical, ethical, and social contexts.',
+                            evidence: 'You demonstrate sophisticated understanding of complex historical and ethical considerations with unique perspectives.',
+                            improvement: 'Continue your excellent contextual research, perhaps exploring even more nuanced ethical or cultural considerations in fashion.'
+                        },
+                        'first': {
+                            strength: 'Your work shows excellent research into creative concepts with strong historical, ethical, and social awareness.',
+                            evidence: 'You demonstrate very good integration of historical and ethical considerations in research and design development.',
+                            improvement: 'To reach A+ level, develop even deeper insights into historical contexts or ethical considerations that challenge conventional thinking.'
+                        },
+                        'upper-second': {
+                            strength: 'Your work shows good research with clear recognition of historical and ethical considerations.',
+                            evidence: 'You provide solid research into historical or ethical contexts with appropriate integration into design work.',
+                            improvement: 'Deepen your exploration of historical and ethical contexts and show more sophisticated integration into your creative concepts.'
+                        },
+                        'lower-second': {
+                            strength: 'Your work shows satisfactory research with some recognition of historical and ethical considerations.',
+                            evidence: 'You present basic research into historical or ethical contexts but connections to design work could be stronger.',
+                            improvement: 'Strengthen your research into historical and ethical contexts and make clearer connections to your design development.'
+                        },
+                        'third': {
+                            strength: 'Your work shows basic research with limited recognition of historical or ethical considerations.',
+                            evidence: 'You show some attempt to acknowledge historical or ethical contexts but lacks depth or relevance.',
+                            improvement: 'Develop a more structured approach to researching historical and ethical contexts and practice applying these to your design work.'
+                        },
+                        'marginal-fail': {
+                            strength: 'Your work shows limited research with minimal recognition of historical or ethical considerations.',
+                            evidence: 'You present poor integration of historical or ethical contexts in research or design work.',
+                            improvement: 'Build basic understanding of how historical and ethical considerations influence fashion design and practice incorporating these into your research.'
+                        },
+                        'fail': {
+                            strength: 'Your work shows very little evidence of research into historical or ethical considerations.',
+                            evidence: 'You present almost no acknowledgment of historical or ethical contexts in relation to design.',
+                            improvement: 'Learn fundamental principles of historical and ethical research in fashion and begin to incorporate these into your design thinking.'
+                        }
+                    }
+                },
+                {
+                    id: 'outcome5',
+                    title: 'LO5: Design Communication',
+                    description: 'Communicate design outcomes using a variety of traditional and contemporary methods appropriate to professional contexts.',
+                    framework: 'Communication and Presentation',
+                    feedback: {
+                        'first-plus': {
+                            strength: 'Your work shows outstanding communication of design outcomes using exceptionally skilled and innovative methods.',
+                            evidence: 'You demonstrate mastery of both traditional and contemporary communication techniques with professional excellence.',
+                            improvement: 'Continue exploring cutting-edge communication methods while maintaining your exceptional standard of presentation.'
+                        },
+                        'first': {
+                            strength: 'Your work shows excellent communication of design outcomes using highly skilled traditional and contemporary methods.',
+                            evidence: 'You present very professional work with creative and effective communication techniques throughout.',
+                            improvement: 'To reach A+ level, experiment with more innovative or unexpected communication methods that push boundaries while maintaining clarity.'
+                        },
+                        'upper-second': {
+                            strength: 'Your work shows good communication of design outcomes with skillful use of appropriate methods.',
+                            evidence: 'You provide professional presentation with clear and effective communication of design ideas.',
+                            improvement: 'Develop more creative and sophisticated communication techniques and ensure consistent professional quality throughout.'
+                        },
+                        'lower-second': {
+                            strength: 'Your work shows satisfactory communication of design outcomes using appropriate methods.',
+                            evidence: 'You present adequate work that communicates design ideas but lacks some refinement or creativity.',
+                            improvement: 'Improve the consistency and creativity of your communication methods, paying more attention to professional presentation standards.'
+                        },
+                        'third': {
+                            strength: 'Your work shows basic communication of design outcomes with limited method variety.',
+                            evidence: 'You make some attempt at presenting design ideas but lacks professionalism or technique variety.',
+                            improvement: 'Develop a wider range of communication techniques and practice applying them to present your ideas more professionally.'
+                        },
+                        'marginal-fail': {
+                            strength: 'Your work shows limited ability to communicate design outcomes effectively.',
+                            evidence: 'You present poor work with inadequate communication of design ideas.',
+                            improvement: 'Learn and practice basic presentation techniques and focus on clearly communicating your design intentions.'
+                        },
+                        'fail': {
+                            strength: 'Your work shows very little evidence of ability to communicate design outcomes.',
+                            evidence: 'You present minimal or ineffective work with unclear communication of design ideas.',
+                            improvement: 'Develop fundamental communication skills and learn standard methods for presenting fashion design work.'
+                        }
+                    }
+                },
+                {
+                    id: 'outcome6',
+                    title: 'Personal & Professional Development',
+                    description: 'Demonstrate effective planning, time-management, commitment & subject engagement, including the ability to work independently and collaboratively.',
+                    framework: 'Personal and Professional Development',
+                    feedback: {
+                        'first-plus': {
+                            strength: 'Your work shows exceptional commitment and self-management with outstanding professional conduct.',
+                            evidence: 'You demonstrate expert time management and organizational skills with proactive engagement and leadership qualities.',
+                            improvement: 'Continue to develop your excellent professional approach by taking on leadership roles and mentoring others.'
+                        },
+                        'first': {
+                            strength: 'Your work shows excellent commitment and self-management with very strong professional conduct.',
+                            evidence: 'You demonstrate very good time management and organizational skills with consistent engagement throughout the project.',
+                            improvement: 'To reach A+ level, develop your leadership skills and demonstrate more initiative in group contexts.'
+                        },
+                        'upper-second': {
+                            strength: 'Your work shows good commitment and self-management with consistent professional conduct.',
+                            evidence: 'You demonstrate good time management and organizational skills with active engagement in the project.',
+                            improvement: 'Work on developing more consistent self-reflection and planning skills to enhance your professional approach.'
+                        },
+                        'lower-second': {
+                            strength: 'Your work shows satisfactory commitment and self-management with adequate professional conduct.',
+                            evidence: 'You demonstrate reasonable time management and organizational skills, though somewhat inconsistent.',
+                            improvement: 'Improve your planning and self-management skills, and demonstrate more consistent engagement throughout projects.'
+                        },
+                        'third': {
+                            strength: 'Your work shows basic commitment and self-management with developing professional conduct.',
+                            evidence: 'You demonstrate limited time management and organizational skills with inconsistent engagement.',
+                            improvement: 'Develop basic planning and organizational strategies, and practice applying them consistently to your work.'
+                        },
+                        'marginal-fail': {
+                            strength: 'Your work shows limited commitment and poor self-management with minimal professional conduct.',
+                            evidence: 'You demonstrate weak time management and organizational skills with little engagement.',
+                            improvement: 'Learn fundamental time management and planning techniques and begin to apply them to your work processes.'
+                        },
+                        'fail': {
+                            strength: 'Your work shows insufficient commitment and self-management with lack of professional conduct.',
+                            evidence: 'You demonstrate very poor time management and organizational skills with minimal engagement.',
+                            improvement: 'Develop basic understanding of professional conduct and time management for academic and design work.'
+                        }
+                    }
+                }
+            ];
+            
+            // Overall improvement advice by grade
+            const overallImprovements = {
+                'fail': [
+                    'Develop basic understanding of research methods and design processes',
+                    'Begin to analyze materials rather than just describing them',
+                    'Improve documentation of your design development process',
+                    'Show evidence of basic material investigation',
+                    'Practice fundamental presentation techniques',
+                    'Develop basic time management and planning skills'
+                ],
+                'marginal-fail': [
+                    'Strengthen your research with more diverse sources',
+                    'Show clearer connections between research and design development',
+                    'Improve organization and documentation of your design process',
+                    'Conduct more thorough material investigations',
+                    'Practice basic presentation techniques for more professional outcomes',
+                    'Improve your self-management and planning'
+                ],
+                'third': [
+                    'Expand your research beyond obvious sources',
+                    'Develop better analytical skills rather than just describing',
+                    'Improve organization of your design development process',
+                    'Conduct more detailed material investigations with clearer evaluation',
+                    'Show more consistent professionalism in presentation',
+                    'Demonstrate more consistent engagement throughout projects'
+                ],
+                'lower-second': [
+                    'Deepen your research and show stronger critical analysis',
+                    'Make clearer connections between research and design development',
+                    'Show more creative exploration in your design process',
+                    'Enhance material investigations with more thoughtful evaluation',
+                    'Improve consistency in professional presentation standards',
+                    'Work on more effective planning and time management'
+                ],
+                'upper-second': [
+                    'Extend research beyond expected sources with deeper critical analysis',
+                    'Show more innovative connections between research and design',
+                    'Demonstrate more creative exploration and risk-taking',
+                    'Develop more sophisticated evaluation of materials and applications',
+                    'Refine presentation techniques for more professional outcomes',
+                    'Improve self-reflection and engagement with feedback'
+                ],
+                'first': [
+                    'Push research to discover unexpected connections and insights',
+                    'Take more creative risks that result in innovative outcomes',
+                    'Demonstrate exceptional critical thinking throughout',
+                    'Perfect technical execution in all aspects',
+                    'Explore innovative presentation methods while maintaining clarity',
+                    'Develop leadership skills and initiative in collaborative contexts'
+                ],
+                'first-plus': [
+                    'Continue your outstanding work across all learning outcomes',
+                    'Consider mentoring others to share your exceptional approach',
+                    'Explore opportunities to showcase your work professionally',
+                    'Maintain your excellent standard while continuing to innovate',
+                    'Develop your professional network and industry connections'
+                ]
+            };
+            
+            // Initialize with default selections
+            let currentGradeId = 'first-plus';
+            let currentOutcomeId = 'outcome1';
+            
+            // Initialize the UI
+            initializeGradeButtons();
+            initializeOutcomeButtons();
+            updateGradeSection(currentGradeId);
+            updateOutcomeContent(currentOutcomeId, currentGradeId);
+            updateAdviceSection(currentGradeId);
+            
+            // Set up modal functionality
+            const matrixModal = document.getElementById('matrix-modal');
+            const matrixBtn = document.getElementById('matrix-button');
+            const closeMatrix = document.getElementById('close-matrix');
+            const closeMatrixBtn = document.getElementById('close-matrix-btn');
+            
+            matrixBtn.onclick = function() {
+                matrixModal.style.display = "block";
+            }
+            
+            closeMatrix.onclick = function() {
+                matrixModal.style.display = "none";
+            }
+            
+            closeMatrixBtn.onclick = function() {
+                matrixModal.style.display = "none";
+            }
+            
+            window.onclick = function(event) {
+                if (event.target == matrixModal) {
+                    matrixModal.style.display = "none";
+                }
+            }
+            
+            // Function to initialize grade buttons
+            function initializeGradeButtons() {
+                const gradeButtonsContainer = document.getElementById('grade-buttons');
+                
+                // Create buttons for each grade
+                grades.forEach(grade => {
+                    const button = document.createElement('button');
+                    button.className = `btn btn-grade ${grade.id === currentGradeId ? 'active' : ''}`;
+                    button.dataset.gradeId = grade.id;
+                    button.innerHTML = `${grade.title} <span style="font-size: 0.8em;">${grade.range}</span>`;
+                    
+                    // Add class for grade-specific styling
+                    button.classList.add(grade.id);
+                    
+                    // Add click handler
+                    button.addEventListener('click', function() {
+                        // Update active state for all grade buttons
+                        document.querySelectorAll('.btn-grade').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                        
+                        // Update current grade
+                        currentGradeId = this.dataset.gradeId;
+                        
+                        // Update UI
+                        updateGradeSection(currentGradeId);
+                        updateOutcomeContent(currentOutcomeId, currentGradeId);
+                        updateAdviceSection(currentGradeId);
+                    });
+                    
+                    gradeButtonsContainer.appendChild(button);
+                });
+            }
+            
+            // Function to initialize outcome buttons
+            function initializeOutcomeButtons() {
+                const outcomeButtonsContainer = document.getElementById('outcome-buttons');
+                
+                // Create buttons for each learning outcome
+                learningOutcomes.forEach(outcome => {
+                    const button = document.createElement('button');
+                    button.className = `btn btn-outcome ${outcome.id === currentOutcomeId ? 'active' : ''}`;
+                    button.dataset.outcomeId = outcome.id;
+                    button.textContent = outcome.title.split(':')[0];
+                    
+                    // Add click handler
+                    button.addEventListener('click', function() {
+                        // Update active state for all outcome buttons
+                        document.querySelectorAll('.btn-outcome').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                        
+                        // Update current outcome
+                        currentOutcomeId = this.dataset.outcomeId;
+                        
+                        // Update UI
+                        updateOutcomeContent(currentOutcomeId, currentGradeId);
+                    });
+                    
+                    outcomeButtonsContainer.appendChild(button);
+                });
+                
+                // Initialize outcome content container
+                const outcomeContainer = document.getElementById('outcome-content-container');
+                learningOutcomes.forEach(outcome => {
+                    const div = document.createElement('div');
+                    div.id = `outcome-${outcome.id}`;
+                    div.className = `outcome-content ${outcome.id === currentOutcomeId ? 'active' : ''}`;
+                    outcomeContainer.appendChild(div);
+                });
+            }
+            
+            // Function to update the grade section
+            function updateGradeSection(gradeId) {
+                const grade = grades.find(g => g.id === gradeId);
+                const gradeHeader = document.getElementById('grade-header');
+                const gradeTitle = document.getElementById('grade-title');
+                const gradeQuality = document.getElementById('grade-quality');
+                
+                // Update content
+                gradeTitle.textContent = `${grade.title} (${grade.range})`;
+                gradeQuality.textContent = `Overall Quality: ${grade.quality}`;
+                
+                // Update classes for styling
+                gradeHeader.className = 'grade-section';
+                gradeHeader.classList.add(grade.id);
+            }
+            
+            // Function to update outcome content
+            function updateOutcomeContent(outcomeId, gradeId) {
+                // Find data
+                const outcome = learningOutcomes.find(o => o.id === outcomeId);
+                const feedback = outcome.feedback[gradeId];
+                
+                // Get content container
+                const contentContainer = document.getElementById(`outcome-${outcomeId}`);
+                
+                // Clear previous content
+                contentContainer.innerHTML = '';
+                
+                // Create new content
+                const html = `
+                    <h2>${outcome.title}</h2>
+                    <p>${outcome.description}</p>
+                    <p class="framework-field">School of Design Framework Mapping: ${outcome.framework}</p>
+                    
+                    <div class="feedback-card">
+                        <p class="section-title">Strengths Evidenced in Your Work:</p>
+                        <p>${feedback.strength}</p>
+                    </div>
+                    
+                    <div class="feedback-card">
+                        <p class="section-title">Areas for Reflection and Practice:</p>
+                        <p>${feedback.evidence}</p>
+                    </div>
+                    
+                    <div class="feedback-card">
+                        <p class="section-title">Summary:</p>
+                        <p>${feedback.improvement}</p>
+                    </div>
+                `;
+                
+                contentContainer.innerHTML = html;
+                
+                // Show the active outcome content
+                document.querySelectorAll('.outcome-content').forEach(el => {
+                    el.classList.remove('active');
+                });
+                contentContainer.classList.add('active');
+            }
+            
+            // Function to update advice section
+            function updateAdviceSection(gradeId) {
+                const adviceList = document.getElementById('advice-list');
+                
+                // Clear previous content
+                adviceList.innerHTML = '';
+                
+                // Add new advice items
+                overallImprovements[gradeId].forEach(advice => {
+                    const li = document.createElement('li');
+                    li.textContent = advice;
+                    adviceList.appendChild(li);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
