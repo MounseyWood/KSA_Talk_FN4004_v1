@@ -325,7 +325,7 @@
             background-color: #f1f1f1;
             font-weight: bold;
             width: 20%;
-            text-align: left;
+            text-align: left !important;
         }
         
         .matrix-table tr:first-child th {
@@ -384,10 +384,10 @@
                 
                 <!-- Footer Buttons -->
                 <div class="footer-buttons">
-                    <button id="matrix-button" class="ku-button">Complete FN4004 Grade Descriptor Matrix</button>
-                    <a href="https://canvas.kingston.ac.uk/courses/8255/pages/7-fairness-in-assessment" class="ku-button" target="_blank">Fairness in Assessment</a>
-                    <a href="https://kingstonuniversity.sharepoint.com/sites/mykingston/mysupport/myskills/Pages/default.aspx" class="ku-button" target="_blank">Support for Building Academic Skills</a>
-                    <a href="https://canvas.kingston.ac.uk/courses/32501" class="ku-button" target="_blank" title="Back to Module Home Page">Back to Module Home Page</a>
+                    <button id="matrix-button" class="ku-button" style="text-align: center !important;">Complete FN4004 Grade Descriptor Matrix</button>
+                    <a href="https://canvas.kingston.ac.uk/courses/8255/pages/7-fairness-in-assessment" class="ku-button" target="_blank" style="text-align: center !important;">Fairness in Assessment</a>
+                    <a href="https://kingstonuniversity.sharepoint.com/sites/mykingston/mysupport/myskills/Pages/default.aspx" class="ku-button" target="_blank" style="text-align: center !important;">Support for Building Academic Skills</a>
+                    <a href="https://canvas.kingston.ac.uk/courses/32501" class="ku-button" target="_blank" title="Back to Module Home Page" style="text-align: center !important;">Back to Module Home Page</a>
                 </div>
                 
                 <!-- Footer Note -->
@@ -935,6 +935,7 @@
                     button.className = `btn btn-outcome ${outcome.id === currentOutcomeId ? 'active' : ''}`;
                     button.dataset.outcomeId = outcome.id;
                     button.textContent = outcome.title.split(':')[0];
+                    button.style.textAlign = "center";
                     
                     // Add click handler
                     button.addEventListener('click', function() {
